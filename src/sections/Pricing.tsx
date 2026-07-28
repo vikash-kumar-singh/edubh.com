@@ -4,18 +4,15 @@ import React from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import SectionHeader from "@/components/section-header";
 import Image, { StaticImageData } from "next/image";
-import Amity from "@/assets/amity.png";
 import Manipal from "@/assets/manipal.png";
 // import Bits from "@/assets/bits.png";
 // import Indian_Institute_of_Technology_Patna from "@/assets/Indian_Institute_of_Technology,_Patna.png";
 
-import AmityBackground from "@/assets/amity-university-noida.jpg";
 import ManipalBackground from "@/assets/manipal-uni.jpg";
 import IitBackground from "@/assets/iit-patna-online-bsc.webp";
 
 // Placeholder background images - replace with actual university specific background images
 // import IITPBackground from "@/assets/iit-patna-online-bsc.webp";
-// import AmityBackground from "@/assets/amity-university-noida.jpg"; // Using pyramid.png as a placeholder
 
 const DummyContent = ({ description, duration, mode }: { description: string; duration: string; mode: string }) => {
   return (
@@ -34,27 +31,11 @@ const DummyContent = ({ description, duration, mode }: { description: string; du
 const data = [
   {
     category: "University",
-    title: "Amity University",
-    src: Amity,
-    content: <DummyContent description="A multi-campus private university offering a wide range of undergraduate and postgraduate courses in diverse fields like engineering, management, law, and mass communication." duration="Various" mode="On-Campus/Online" />,
-    website: "/courses",
-    backgroundImage: AmityBackground,
-  },
-  {
-    category: "University",
     title: "Manipal Online",
     src: Manipal,
     content: <DummyContent description="Manipal University Online offers UGC-entitled online degree programs designed for working professionals and students seeking flexible, high-quality education from a recognized institution." duration="Various" mode="Online" />,
     website: "/manipal-courses",
     backgroundImage: ManipalBackground,
-  },
-  {
-    category: "University",
-    title: "Amity University",
-    src: Amity,
-    content: <DummyContent description="A multi-campus private university offering a wide range of undergraduate and postgraduate courses in diverse fields like engineering, management, law, and mass communication." duration="Various" mode="On-Campus/Online" />,
-    website: "/courses",
-    backgroundImage: AmityBackground,
   },
   {
     category: "University",

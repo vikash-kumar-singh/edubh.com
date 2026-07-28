@@ -1,6 +1,0 @@
-{
-  "/api/feedback/featured/route": "app/api/feedback/featured/route.js",
-  "/apply/page": "app/apply/page.js",
-  "/courses/page": "app/courses/page.js",
-  "/page": "app/page.js"
-}

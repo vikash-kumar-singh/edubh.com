@@ -1,6 +1,5 @@
 "use client";
 
-import amityLogo from "@/assets/amity.png";
 import manipalLogo from "@/assets/manipal.png";
 // import bitsLogo from "@/assets/bits.png";
 // import iitPatnaLogo from "@/assets/Indian_Institute_of_Technology,_Patna.png";
@@ -8,11 +7,7 @@ import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const allLogos = [
-  // bitsLogo,
-  // iitPatnaLogo,
-  amityLogo,manipalLogo,amityLogo,manipalLogo,amityLogo,manipalLogo,amityLogo,
-];
+const allLogos = Array.from({ length: 7 }, () => manipalLogo);
 
 export const LogoTicker = () => {
   return (

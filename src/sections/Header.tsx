@@ -27,7 +27,6 @@ export const Header = () => {
           { name: "Courses",  // Placeholder link, will not be used directly
             link: "#",
             dropdown: [
-              { name: "Amity University", link: "/courses" },
               { name: "Manipal University", link: "/manipal-courses" },
             ],
           },
@@ -38,7 +37,6 @@ export const Header = () => {
           { name: "Courses", 
             link: "#", // Placeholder link, will not be used directly
             dropdown: [
-              { name: "Amity University", link: "/courses" },
               { name: "Manipal University", link: "/manipal-courses" },
             ],
           },

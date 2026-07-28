@@ -4,7 +4,6 @@ import ArrowIcon from "@/assets/arrow-right.svg";
 import cogImage from "@/assets/cog.png";
 import cylImage from "@/assets/cylinder.png";
 import noodelImage from "@/assets/noodle.png";
-import amityLogo from "@/assets/amity.png";
 import manipalLogo from "@/assets/manipal.png";
 import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import { 

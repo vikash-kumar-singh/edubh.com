@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { SiteFooter } from "@/components/ui/footer";
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <UtmTracker />
+        <Suspense fallback={null}>
+          <UtmTracker />
+        </Suspense>
         <MetaPixel />
         <div className="site-shell min-h-screen">
           <div
@@ -42,6 +45,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+
 
 
 

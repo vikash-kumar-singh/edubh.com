@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, updateDoc, getDocs, query, orderBy, limit, runTransaction, where } from 'firebase/firestore'; // Import Firestore functions
+import { collection, addDoc, doc, updateDoc, getDocs, query, orderBy, limit, runTransaction, where, type QueryConstraint } from 'firebase/firestore'; // Import Firestore functions
 import { firestore } from './firebase'; // Import only firestore
 import type { UtmAttribution } from './utm';
 
@@ -13,6 +13,14 @@ export interface ApplicationData {
   state: string;
   program: string;
   qualification?: string;
+  preferredUniversity?: string;
+  budget?: string;
+  customBudget?: string;
+  preferredSession?: string;
+  customPreferredSession?: string;
+  lastPassingPercentage?: string;
+  callbackDate?: string;
+  callbackTime?: string;
   leadSource?: string;
   utmAttribution?: UtmAttribution;
   timestamp: number;
@@ -131,6 +139,50 @@ export const fetchApplicationsFirestore = async (): Promise<{ success: boolean; 
   }
 };
 
+
+// Fetch every application in an optional submission-date range for admin export.
+export const fetchApplicationsForExportFirestore = async (
+  fromTimestamp?: number,
+  toTimestamp?: number,
+): Promise<{ success: boolean; data?: ApplicationData[]; error?: string }> => {
+  if (!isFirebaseInitialized()) {
+    return {
+      success: false,
+      error: 'Firebase is not initialized. Please check your configuration.',
+    };
+  }
+
+  try {
+    const constraints: QueryConstraint[] = [];
+
+    if (typeof fromTimestamp === 'number') {
+      constraints.push(where('timestamp', '>=', fromTimestamp));
+    }
+    if (typeof toTimestamp === 'number') {
+      constraints.push(where('timestamp', '<=', toTimestamp));
+    }
+    constraints.push(orderBy('timestamp', 'desc'));
+
+    const snapshot = await getDocs(
+      query(collection(firestore, 'applications'), ...constraints),
+    );
+    const applications = snapshot.docs.map((applicationDocument) => ({
+      id: applicationDocument.id,
+      ...(applicationDocument.data() as Omit<ApplicationData, 'id'>),
+    }));
+
+    return { success: true, data: applications };
+  } catch (error) {
+    console.error('Error exporting applications from Firestore:', error);
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unable to export applications.',
+    };
+  }
+};
 // Update application status in Firestore
 export const updateApplicationStatusFirestore = async (id: string, status: 'pending' | 'approved' | 'rejected'): Promise<{ success: boolean; error?: string }> => {
   if (!isFirebaseInitialized()) {

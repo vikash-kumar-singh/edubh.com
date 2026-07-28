@@ -36,7 +36,9 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "tmp/next-dev/types/**/*.ts",
-    "tmp/next-dev/dev/types/**/*.ts"
+    "tmp/next-dev/dev/types/**/*.ts",
+    "node_modules/.cache/edubh-next-dev/types/**/*.ts",
+    "node_modules/.cache/edubh-next-dev/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

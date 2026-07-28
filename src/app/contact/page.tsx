@@ -62,8 +62,8 @@ export default function ContactPage() {
               <span>+91 8240501323</span>
             </div>
             <div className="trust-pill">
-              <strong>Noida</strong>
-              <span>Uttar Pradesh, India</span>
+              <strong>Kolkata - Dum Dum Office</strong>
+              <span>North Dum Dum, West Bengal-700080</span>
             </div>
           </div>
         </div>
@@ -169,9 +169,9 @@ export default function ContactPage() {
                 <div>
                   <p className="font-semibold text-[var(--foreground)]">Address</p>
                   <p className="mt-1 text-[var(--muted)]">
-                    EduBh, Sector 18,
+                    EduBh, Kolkata - Dum Dum Office
                     <br />
-                    Noida, Uttar Pradesh, India
+                    Building India Post office, 2nd floor, Jessore Rd, K.B.Sarani, Dum Dum, North Dum Dum, West Bengal-700080
                   </p>
                 </div>
               </li>

@@ -12,7 +12,6 @@ const universityLogos: Record<string, string> = {
   "Lovely Professional University Online": "/universities/lpu-online.svg",
   "Dr. D. Y. Patil Vidyapeeth Online": "/universities/dy-patil-online.png",
   "ARKA JAIN University Online": "/universities/arka-jain-online-v2.png",
-  "Amity University": "/universities/amity-online.png",
   "Manipal University": "/manipal.png",
   "Jain University": "/jain.png",
   "Sharda University Online": "/sharda.png",

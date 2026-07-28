@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  distDir: process.env.NODE_ENV === "development" ? "tmp/next-dev" : ".next",
+  distDir:
+    process.env.NODE_ENV === "development"
+      ? "node_modules/.cache/edubh-next-dev"
+      : ".next",
   reactCompiler: process.env.NODE_ENV === "production",
   experimental: {
     optimizePackageImports: ["@tabler/icons-react", "framer-motion"],

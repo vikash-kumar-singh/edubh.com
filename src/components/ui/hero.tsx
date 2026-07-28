@@ -6,7 +6,7 @@ import Image from "next/image";
 import type { LeadSource } from "@/components/ui/application-form";
 
 const stats = [
-  { value: "8", label: "Partner universities" },
+  { value: "7", label: "Partner universities" },
   { value: "2000+", label: "Learners" },
   { value: "4.9/5", label: "Average satisfaction" },
 ];
@@ -35,7 +35,7 @@ export function Hero({ onOpenApplicationModal }: HeroProps) {
             className="eyebrow"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>Admissions open for 2025 cohorts</span>
+            <span>Admissions open for 2026 cohorts</span>
           </motion.div>
 
           <div className="space-y-5">

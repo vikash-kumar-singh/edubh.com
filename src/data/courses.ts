@@ -5,7 +5,6 @@ export const universityNames = [
   "Manipal University",
   "ARKA JAIN University Online",
   "Dr. D. Y. Patil Vidyapeeth Online",
-  "Amity University",
   "Jain University",
   "Sharda University Online",
   "Shoolini University Online",
@@ -49,10 +48,6 @@ const dpu: Seed[] = [
   pg("dpu-mca", "Master of Computer Applications (MCA)"), pg("dpu-mca-ai-ml", "MCA in Artificial Intelligence & Machine Learning"), pg("dpu-mca-blockchain", "MCA in Blockchain Technology"), pg("dpu-mca-business-analytics", "MCA in Business Analytics"), pg("dpu-mca-digital-marketing", "MCA in Digital Marketing"), pg("dpu-mca-fintech", "MCA in FinTech"),
   cert("dpu-cert-digital-marketing", "Certificate in Digital Marketing", "6 Months • Online"), cert("dpu-cert-healthcare", "Certificate in Hospital & Healthcare Management", "6 Months • Online"),
 ];
-const amity: Seed[] = [
-  pg("mba-amity", "MBA - Amity University", "2 Years • Full-time • Hybrid"),
-  integrated("integrated-mba-amity", "Integrated BBA+MBA - Amity University", "5 Years • Full-time • Hybrid"),
-];
 const jain: Seed[] = [
   pg("mba-jain", "MBA - Digital Business & Strategy", "2 Years • Full-time • Hybrid"),
   cert("cert-product-jain", "Certification in Product Management", "6 Months • Part-time • Online"),
@@ -94,7 +89,6 @@ export const courses: Course[] = [
   ...make("Manipal University", smu),
   ...make("ARKA JAIN University Online", aju),
   ...make("Dr. D. Y. Patil Vidyapeeth Online", dpu),
-  ...make("Amity University", amity),
   ...make("Jain University", jain),
   ...make("Sharda University Online", sharda),
   ...make("Shoolini University Online", shoolini),

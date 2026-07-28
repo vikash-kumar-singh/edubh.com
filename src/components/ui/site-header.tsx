@@ -87,7 +87,7 @@ export function SiteHeader() {
               Sharda University Online
             </span>
           </p>
-          <Link href="/apply" className="button-primary px-5 py-3 text-sm">
+          <Link href="/enquire" className="button-primary px-5 py-3 text-sm">
             Enquire Now
           </Link>
         </div>

@@ -10,6 +10,7 @@ import avatar2 from "@/assets/avatar-2.png";
 import avatar3 from "@/assets/avatar-3.png";
 import avatar4 from "@/assets/avatar-4.png";
 import type { PublicFeedback } from "@/lib/firebase-db";
+import { parseApiResponse } from "@/lib/api-response";
 
 type TestimonialItem = {
   id: string;
@@ -25,7 +26,7 @@ const defaultTestimonials: TestimonialItem[] = [
     id: "aarav-sharma",
     name: "Aarav Sharma",
     role: "Product Manager, Bangalore",
-    text: "EduBh and Amity gave me a portfolio of shipped features before graduation.",
+    text: "EduBh and Jain University gave me a portfolio of shipped features before graduation.",
     avatar: avatar1,
   },
   {
@@ -70,10 +71,10 @@ export function TestimonialsColumn() {
         const response = await fetch("/api/feedback/featured", {
           signal: controller.signal,
         });
-        const payload = (await response.json()) as {
+        const payload = await parseApiResponse<{
           success?: boolean;
           data?: PublicFeedback[];
-        };
+        }>(response);
 
         if (response.ok && payload.success && payload.data) {
           setFiveStarFeedback(payload.data);

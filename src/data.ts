@@ -16,7 +16,7 @@ export const testimonials = [
     username: "@priya_tech_student",
   },
   {
-    text: "The partnership with Amity University gave me a recognized degree while learning from industry experts. My career transformed completely.",
+    text: "The partnership with Jain University gave me a recognized degree while learning from industry experts. My career transformed completely.",
     imageSrc: avatar2.src,
     name: "Rahul Gupta",
     username: "@rahul_coding",

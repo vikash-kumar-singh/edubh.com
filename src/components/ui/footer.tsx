@@ -160,7 +160,6 @@ export function SiteFooter() {
                 <li>Sharda University Online</li>
                 <li>Arka Jain University Online</li>
                 <li>Dr. D. Y. Patil Vidyapeeth Online</li>
-                <li>Amity University</li>
                 <li>Lovely Professional University Online</li>
                 <li>Shoolini University Online</li>
               </ul>
