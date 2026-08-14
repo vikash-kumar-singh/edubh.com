@@ -55,8 +55,8 @@ export function CourseCategorySection({ title, courses, onSelect }: Props) {
                   <span className="rounded-full bg-[#f6f8fc] px-3 py-1.5 text-[var(--muted)]">{course.duration}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  {course.brochures[0] && <a href={course.brochures[0].file} download className="button-ghost inline-flex items-center gap-2 text-sm" aria-label={`Download ${course.brochures[0].title}`}><Download className="h-4 w-4" />Brochure</a>}
-                  <button type="button" onClick={() => onSelect?.(course)} className="button-ghost text-sm">View details</button>
+                  {course.brochures[0] && <a href={course.brochures[0].file} download data-meta-action="brochure_download" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-ghost inline-flex items-center gap-2 text-sm" aria-label={`Download ${course.brochures[0].title}`}><Download className="h-4 w-4" />Brochure</a>}
+                  <button type="button" onClick={() => onSelect?.(course)} data-meta-action="course_details" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-ghost text-sm">View details</button>
                 </div>
               </div>
             </div>

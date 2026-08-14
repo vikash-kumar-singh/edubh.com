@@ -23,8 +23,8 @@ export default function RootLayout({
       <body className="antialiased">
         <Suspense fallback={null}>
           <UtmTracker />
+          <MetaPixel />
         </Suspense>
-        <MetaPixel />
         <div className="site-shell min-h-screen">
           <div
             aria-hidden="true"

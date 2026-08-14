@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Clock, Download, ExternalLink, X } from "lucide-react";
 import Link from "next/link";
 import type { Course } from "@/data/courses";
+import { trackMetaPixelCourseView } from "@/lib/meta-pixel";
 
 type CourseDetailsModalProps = {
   course: Course | null;
@@ -12,6 +13,20 @@ type CourseDetailsModalProps = {
 };
 
 export function CourseDetailsModal({ course, onClose }: CourseDetailsModalProps) {
+  const lastTrackedCourse = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!course) {
+      lastTrackedCourse.current = null;
+      return;
+    }
+
+    if (lastTrackedCourse.current !== course.id) {
+      trackMetaPixelCourseView(course, "course_modal");
+      lastTrackedCourse.current = course.id;
+    }
+  }, [course]);
+
   useEffect(() => {
     if (!course) {
       return;
@@ -94,10 +109,10 @@ export function CourseDetailsModal({ course, onClose }: CourseDetailsModalProps)
                       <div key={brochure.file} className="flex flex-col gap-3 rounded-[1rem] bg-[#f6f8fc] px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
                         <span className="font-medium text-[var(--foreground)]">{brochure.title}</span>
                         <div className="flex shrink-0 flex-wrap gap-2">
-                          <a href={brochure.file} target="_blank" rel="noreferrer" className="button-ghost inline-flex items-center gap-2 text-xs">
+                          <a href={brochure.file} target="_blank" rel="noreferrer" data-meta-action="brochure_view" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-ghost inline-flex items-center gap-2 text-xs">
                             <ExternalLink className="h-3.5 w-3.5" /> View
                           </a>
-                          <a href={brochure.file} download className="button-ghost inline-flex items-center gap-2 text-xs">
+                          <a href={brochure.file} download data-meta-action="brochure_download" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-ghost inline-flex items-center gap-2 text-xs">
                             <Download className="h-3.5 w-3.5" /> Download
                           </a>
                         </div>
@@ -112,7 +127,7 @@ export function CourseDetailsModal({ course, onClose }: CourseDetailsModalProps)
               <p className="max-w-md text-sm leading-7 text-[var(--muted)]">
                 Secure your seat with a guided application through EduBh.
               </p>
-              <Link href="/apply" className="button-primary text-sm">
+              <Link href="/apply" data-meta-action="apply" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-primary text-sm">
                 Apply now
               </Link>
             </footer>

@@ -1,7 +1,19 @@
 export type MetaPixelParameters = Record<
   string,
-  string | number | boolean | undefined
+  | string
+  | number
+  | boolean
+  | readonly string[]
+  | readonly number[]
+  | undefined
 >;
+
+export type MetaPixelCourse = {
+  id: string;
+  title: string;
+  category: string;
+  university: string;
+};
 
 type MetaPixelFunction = {
   (...argumentsList: unknown[]): void;
@@ -18,6 +30,7 @@ declare global {
     _fbq?: MetaPixelFunction;
     __edubhMetaPixelId?: string;
     __edubhLastMetaPage?: string;
+    __edubhLastMetaContent?: string;
   }
 }
 
@@ -80,4 +93,18 @@ export const trackMetaPixelCustomEvent = (
   }
 
   window.fbq("trackCustom", eventName, parameters || {});
+};
+
+export const trackMetaPixelCourseView = (
+  course: MetaPixelCourse,
+  contentLocation: "course_page" | "course_modal",
+) => {
+  trackMetaPixelEvent("ViewContent", {
+    content_ids: [course.id],
+    content_name: course.title,
+    content_category: course.category,
+    content_type: "product",
+    university: course.university,
+    content_location: contentLocation,
+  });
 };

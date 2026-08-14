@@ -117,6 +117,10 @@ export default function ManipalCoursesPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedCourse(course)}
+                    data-meta-action="course_details"
+                    data-meta-course-id={course.id}
+                    data-meta-course-title={course.title}
+                    data-meta-university={course.university}
                     className="button-ghost text-sm"
                   >
                     View details

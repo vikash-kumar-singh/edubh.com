@@ -51,7 +51,7 @@ export default async function CourseDetail({ params }: CoursePageProps) {
               {course.description}
             </p>
           </div>
-          <Link href="/apply" className="button-primary w-fit text-sm sm:text-base">
+          <Link href="/apply" data-meta-action="apply" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-primary w-fit text-sm sm:text-base">
             Apply Now
           </Link>
         </div>
@@ -106,10 +106,10 @@ export default async function CourseDetail({ params }: CoursePageProps) {
                     <div key={brochure.file} className="flex flex-col gap-3 rounded-[1.2rem] bg-[#f6f8fc] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                       <span className="font-medium text-[var(--foreground)]">{brochure.title}</span>
                       <div className="flex shrink-0 flex-wrap gap-2">
-                        <a href={brochure.file} target="_blank" rel="noreferrer" className="button-ghost inline-flex items-center gap-2 text-sm">
+                        <a href={brochure.file} target="_blank" rel="noreferrer" data-meta-action="brochure_view" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-ghost inline-flex items-center gap-2 text-sm">
                           <ExternalLink className="h-4 w-4" /> View PDF
                         </a>
-                        <a href={brochure.file} download className="button-primary inline-flex items-center gap-2 text-sm">
+                        <a href={brochure.file} download data-meta-action="brochure_download" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="button-primary inline-flex items-center gap-2 text-sm">
                           <Download className="h-4 w-4" /> Download
                         </a>
                       </div>
@@ -146,7 +146,7 @@ export default async function CourseDetail({ params }: CoursePageProps) {
                 </dd>
               </div>
             </dl>
-            <Link href="/apply" className="mt-6 button-primary w-full text-sm">
+            <Link href="/apply" data-meta-action="apply" data-meta-course-id={course.id} data-meta-course-title={course.title} data-meta-university={course.university} className="mt-6 button-primary w-full text-sm">
               Start application
             </Link>
           </div>
