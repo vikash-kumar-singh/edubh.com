@@ -98,11 +98,30 @@ export async function GET(request: NextRequest) {
     const { saveApplication } = await import('@/lib/firebase-db');
     const result = await saveApplication(body);
     
-    if (result.success) {
+    if (result.success && result.id && result.application) {
+      const { deliverApplicationToPeople } = await import('@/lib/people-crm');
+      const { updateApplicationPeopleDeliveryFirestore } = await import('@/lib/firebase-db');
+      const delivery = await deliverApplicationToPeople(result.id, result.application);
+
+      try {
+        await updateApplicationPeopleDeliveryFirestore(result.id, {
+          status: delivery.status,
+          leadId: delivery.status === 'delivered' ? delivery.leadId : null,
+          error: delivery.status === 'delivered' ? null : delivery.error,
+        });
+      } catch (deliveryTrackingError) {
+        console.error('Unable to record People CRM delivery state:', deliveryTrackingError);
+      }
+
+      if (delivery.status === 'failed') {
+        console.error('People CRM delivery failed for application:', result.id, delivery.error);
+      }
+
       return NextResponse.json({
         success: true,
         id: result.id,
-        message: 'Application submitted successfully'
+        message: 'Application submitted successfully',
+        crmDelivery: delivery.status,
       });
     } else {
       return NextResponse.json(

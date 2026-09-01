@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, updateDoc, getDocs, query, orderBy, limit, runTransaction, where, type QueryConstraint } from 'firebase/firestore'; // Import Firestore functions
+import { collection, addDoc, doc, updateDoc, getDocs, increment, query, orderBy, limit, runTransaction, where, type QueryConstraint } from 'firebase/firestore'; // Import Firestore functions
 import { firestore } from './firebase'; // Import only firestore
 import type { UtmAttribution } from './utm';
 
@@ -25,6 +25,11 @@ export interface ApplicationData {
   utmAttribution?: UtmAttribution;
   timestamp: number;
   status: 'pending' | 'approved' | 'rejected';
+  peopleDeliveryStatus?: 'pending' | 'delivered' | 'failed' | 'skipped';
+  peopleLeadId?: string | null;
+  peopleDeliveryError?: string | null;
+  peopleDeliveryUpdatedAt?: number;
+  peopleDeliveryAttemptCount?: number;
 }
 
 export interface ContactFormData {
@@ -40,7 +45,7 @@ export interface ContactFormData {
 }
 
 // Save application data to Firebase
-export const saveApplication = async (data: Omit<ApplicationData, 'timestamp' | 'status'>): Promise<{ success: boolean; id?: string; error?: string }> => {
+export const saveApplication = async (data: Omit<ApplicationData, 'timestamp' | 'status'>): Promise<{ success: boolean; id?: string; application?: ApplicationData; error?: string }> => {
   if (!isFirebaseInitialized()) {
     return {
       success: false,
@@ -52,7 +57,11 @@ export const saveApplication = async (data: Omit<ApplicationData, 'timestamp' | 
     const applicationData: ApplicationData = {
       ...data,
       timestamp: Date.now(),
-      status: 'pending'
+      status: 'pending',
+      peopleDeliveryStatus: 'pending',
+      peopleLeadId: null,
+      peopleDeliveryError: null,
+      peopleDeliveryAttemptCount: 0,
     };
 
     // Save to Firestore
@@ -61,7 +70,8 @@ export const saveApplication = async (data: Omit<ApplicationData, 'timestamp' | 
     
     return {
       success: true,
-      id: docRef.id
+      id: docRef.id,
+      application: applicationData,
     };
   } catch (error) {
     console.error('Error saving application:', error);
@@ -230,6 +240,54 @@ const createFeedbackDocumentId = async (email: string) => {
   return Array.from(new Uint8Array(hash))
     .map((byte) => byte.toString(16).padStart(2, '0'))
     .join('');
+};
+
+export const updateApplicationPeopleDeliveryFirestore = async (
+  id: string,
+  delivery: {
+    status: 'delivered' | 'failed' | 'skipped';
+    leadId?: string | null;
+    error?: string | null;
+  },
+): Promise<void> => {
+  if (!isFirebaseInitialized()) return;
+
+  await updateDoc(doc(firestore, 'applications', id), {
+    peopleDeliveryStatus: delivery.status,
+    peopleLeadId: delivery.leadId ?? null,
+    peopleDeliveryError: delivery.error?.slice(0, 500) ?? null,
+    peopleDeliveryUpdatedAt: Date.now(),
+    peopleDeliveryAttemptCount: increment(1),
+  });
+};
+
+export const fetchApplicationsPendingPeopleDelivery = async (
+  maximum = 25,
+  dateRange?: { fromTimestamp: number; toTimestamp: number },
+): Promise<ApplicationData[]> => {
+  if (!isFirebaseInitialized()) return [];
+  if (dateRange) {
+    const snapshot = await getDocs(query(
+      collection(firestore, 'applications'),
+      where('timestamp', '>=', dateRange.fromTimestamp),
+      where('timestamp', '<=', dateRange.toTimestamp),
+      orderBy('timestamp', 'desc'),
+      limit(maximum),
+    ));
+    return snapshot.docs.map((row) => ({
+      id: row.id,
+      ...(row.data() as Omit<ApplicationData, 'id'>),
+    }));
+  }
+  const snapshots = await Promise.all([
+    getDocs(query(collection(firestore, 'applications'), where('peopleDeliveryStatus', '==', 'pending'), limit(maximum))),
+    getDocs(query(collection(firestore, 'applications'), where('peopleDeliveryStatus', '==', 'failed'), limit(maximum))),
+  ]);
+  const unique = new Map<string, ApplicationData>();
+  snapshots.forEach((snapshot) => snapshot.docs.forEach((row) => {
+    unique.set(row.id, { id: row.id, ...(row.data() as Omit<ApplicationData, 'id'>) });
+  }));
+  return Array.from(unique.values()).slice(0, maximum);
 };
 
 export const saveFeedback = async (

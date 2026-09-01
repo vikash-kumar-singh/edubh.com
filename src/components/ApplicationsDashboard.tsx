@@ -26,6 +26,9 @@ interface ApplicationData {
   utmAttribution?: UtmAttribution;
   timestamp: number;
   status: 'pending' | 'approved' | 'rejected';
+  peopleDeliveryStatus?: 'pending' | 'delivered' | 'failed' | 'skipped';
+  peopleLeadId?: string | null;
+  peopleDeliveryError?: string | null;
 }
 
 export default function ApplicationsDashboard() {
@@ -51,7 +54,7 @@ export default function ApplicationsDashboard() {
       } else {
         setError(result.error || 'Failed to fetch applications');
       }
-    } catch (error) {
+    } catch {
       setError('Failed to fetch applications');
     } finally {
       setLoading(false);
@@ -231,6 +234,19 @@ export default function ApplicationsDashboard() {
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
   };
+
+  const getCrmDeliveryColor = (status?: ApplicationData['peopleDeliveryStatus']) => {
+    switch (status) {
+      case 'delivered':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'failed':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'skipped':
+        return 'bg-gray-100 text-gray-700 border-gray-200';
+      default:
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    }
+  };
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -346,6 +362,9 @@ export default function ApplicationsDashboard() {
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  People CRM
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -385,7 +404,8 @@ export default function ApplicationsDashboard() {
                         </div>
                       )}
                     </div>
-                  </td>                  <td className="px-6 py-4 text-sm text-gray-600">
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
                     <div className="min-w-[220px] space-y-1">
                       <p><span className="font-medium text-gray-800">University:</span> {application.preferredUniversity || "Not provided"}</p>
                       <p><span className="font-medium text-gray-800">Budget:</span> {application.budget === "Custom amount" && application.customBudget ? `₹${Number(application.customBudget).toLocaleString("en-IN")}` : application.budget || "Not provided"}</p>
@@ -407,6 +427,21 @@ export default function ApplicationsDashboard() {
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(application.status)}`}>
                       {application.status}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="space-y-1">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getCrmDeliveryColor(application.peopleDeliveryStatus)}`}>
+                        {application.peopleDeliveryStatus || 'pending'}
+                      </span>
+                      {application.peopleLeadId && (
+                        <div className="text-xs text-gray-500">{application.peopleLeadId}</div>
+                      )}
+                      {application.peopleDeliveryStatus === 'failed' && application.peopleDeliveryError && (
+                        <div className="max-w-[220px] truncate text-xs text-red-600" title={application.peopleDeliveryError}>
+                          {application.peopleDeliveryError}
+                        </div>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">

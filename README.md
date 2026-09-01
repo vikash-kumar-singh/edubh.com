@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### People CRM lead delivery
+
+Configure these server-only variables in the website deployment:
+
+```text
+EDUBH_PEOPLE_INTEGRATION_SECRET=<same-long-random-secret-used-by-people>
+PEOPLE_CRM_LEAD_ENDPOINT=https://people.edubh.com/api/integrations/edubh/leads
+CRON_SECRET=<long-random-secret-for-retry-job>
+```
+
+Do not prefix either secret with `NEXT_PUBLIC_`. Every successful application save is signed and delivered to People as an unassigned CRM lead. Failed deliveries remain saved with `peopleDeliveryStatus: "failed"` and can be retried by scheduling an authenticated `POST /api/cron/people-lead-delivery` request with `Authorization: Bearer <CRON_SECRET>`.
+
 First, run the development server:
 
 ```bash
