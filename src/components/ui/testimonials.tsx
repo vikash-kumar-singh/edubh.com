@@ -22,34 +22,7 @@ type TestimonialItem = {
 };
 
 const defaultTestimonials: TestimonialItem[] = [
-  {
-    id: "aarav-sharma",
-    name: "Aarav Sharma",
-    role: "Product Manager, Bangalore",
-    text: "EduBh and Jain University gave me a portfolio of shipped features before graduation.",
-    avatar: avatar1,
-  },
-  {
-    id: "ishita-verma",
-    name: "Ishita Verma",
-    role: "Data Analyst, Gurgaon",
-    text: "The Manipal AI track felt like working inside a real analytics team.",
-    avatar: avatar2,
-  },
-  {
-    id: "rahul-singh",
-    name: "Rahul Singh",
-    role: "Software Engineer, Pune",
-    text: "Every semester had an industry mentor who actually reviewed our work.",
-    avatar: avatar3,
-  },
-  {
-    id: "sara-mathew",
-    name: "Sara Mathew",
-    role: "Marketing Strategist, Mumbai",
-    text: "The capstone with a global SaaS company completely changed my career trajectory.",
-    avatar: avatar4,
-  },
+ 
 ];
 
 const relationshipLabels: Record<PublicFeedback["relationship"], string> = {
