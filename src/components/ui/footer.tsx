@@ -65,7 +65,7 @@ export function SiteFooter() {
                 <SocialInsta className="h-4 w-4" />
               </a>
               <a
-                href="https://linkedin.com/company/edubhofficial/"
+                href="https://www.linkedin.com/company/edubh-2751813ba/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white transition hover:-translate-y-0.5 hover:bg-white/12"
